@@ -1,0 +1,50 @@
+version: "3"
+
+networks:
+  mern-network:
+    driver: bridge
+
+services:
+  public:
+    container_name: public
+    build:
+      dockerfile: Dockerfile
+      context: ./public/
+    restart: always
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - server
+      - database
+    links:
+      - server
+      - database
+    networks:
+      - mern-network
+
+  server:
+    container_name: server
+    build:
+      dockerfile: Dockerfile
+      context: ./server/
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    links:
+      - database
+    networks:
+      - mern-network
+
+  database:
+    container_name: mongo-db
+    image: mongo
+    ports:
+      - "27017:27107"
+    volumes:
+      - /home/huy/Chat_app_docker/mongo-backup:/data/db
+    networks:
+      - mern-network

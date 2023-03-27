@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY package.json .
 
+RUN npm install bcrypt --registry=https://registry.npmjs.org
+
 RUN npm install
 
 COPY . .
