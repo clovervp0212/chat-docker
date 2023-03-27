@@ -1,15 +1,15 @@
 FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package.json .
+COPY ./package.json ./
+COPY ./yarn.lock ./
 
-RUN npm install bcrypt --registry=https://registry.npmjs.org
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 
 EXPOSE 5000
 
-CMD ["npm", "start"]
+CMD ["index.js"]
